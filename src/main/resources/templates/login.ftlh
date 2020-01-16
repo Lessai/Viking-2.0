@@ -2,7 +2,15 @@
 <#import "parts/login.ftlh" as l>
 
 <@c.page>
-<div><b>Login page</b></div>
-<@l.login "/login" "Sign In"/>
-<a href="/registration">Create account</a>
+    <#if Session?? && Session.SPRING_SECURITY_LAST_EXCEPTION??>
+        <div class="alert alert-danger" role="alert">
+            ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
+        </div>
+    </#if>
+    <#if message??>
+        <div class="alert alert-${messageType}" role="alert">
+            ${message}
+        </div>
+    </#if>
+<@l.login "/login" "Sign In" false/>
 </@c.page>
