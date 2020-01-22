@@ -2,7 +2,10 @@
 <#import "login.ftlh" as l>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Sweater</a>
+    <a class="navbar-brand" href="#">
+        <img src="../img/Logo.png" width="35" height="35" class="d-inline-block align-top" alt="">
+        Viking
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,9 +15,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/main">Messages</a>
-            </li>
+            <#if user??>
+                <li class="nav-item">
+                    <a class="nav-link" href="/main">Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user-messages/${currentUserId}">My Messages</a>
+                </li>
+            </#if>
             <#if isAdmin>
                 <li class="nav-item">
                     <a class="nav-link" href="/user">User list</a>
@@ -29,6 +37,9 @@
         <div class="navbar-text mr-3">${name}</div>
         <#if user??>
             <@l.logout />
+        </#if>
+        <#if !user??>
+            <@l.loginBtn />
         </#if>
     </div>
 </nav>

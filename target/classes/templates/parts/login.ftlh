@@ -76,3 +76,10 @@
     <button type="submit"  class="btn btn-warning">Sign Out</button>
 </form>
 </#macro>
+
+<#macro loginBtn>
+    <form action="/login" method="post">
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <button type="submit"  class="btn btn-warning">Sign In</button>
+    </form>
+</#macro>
