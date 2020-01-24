@@ -15,13 +15,23 @@
                     <i>#${message.tag}</i>
                 </#if>
             </div>
-            <div class="card-footer text-muted d-flex justify-content-between">
-                <a class="text-warning" href="/user-messages/${message.author.id}">${message.authorName}</a>
-                <#if message.author.id == currentUserId>
-                    <a class="btn btn-outline-warning" href="/user-messages/${message.author.id}?message=${message.id}">
-                        Edit
+            <div class="card-footer text-muted container">
+                <div class="row">
+                    <a class="col text-warning align-self-center" href="/user-messages/${message.author.id}">${message.authorName}</a>
+                    <a class="col text-warning align-self-center" href="/messages/${message.id}/like">
+                        <#if message.meLiked>
+                            <i class="fas fa-heart"></i>
+                        <#else>
+                            <i class="far fa-heart"></i>
+                        </#if>
+                        ${message.likes}
                     </a>
-                </#if>
+                    <#if message.author.id == currentUserId>
+                        <a class="btn btn-outline-warning" href="/user-messages/${message.author.id}?message=${message.id}">
+                            Edit
+                        </a>
+                    </#if>
+                </div>
             </div>
         </div>
     <#else>
