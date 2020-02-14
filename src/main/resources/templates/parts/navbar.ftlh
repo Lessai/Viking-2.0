@@ -2,7 +2,7 @@
 <#import "login.ftlh" as l>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
         <img src="../img/Logo.png" width="35" height="35" class="d-inline-block align-top" alt="">
         Viking
     </a>
@@ -15,17 +15,21 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
-            <#if user??>
+            <#if isHR || isAdmin>
                 <li class="nav-item">
-                    <a class="nav-link" href="/main">Messages</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user-messages/${currentUserId}">My Messages</a>
+                    <a class="nav-link" href="/HR/employees">All Employees</a>
                 </li>
             </#if>
             <#if isAdmin>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user">User list</a>
+                    <a class="nav-link" href="/admin">User list</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin panel</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/admin/updateDepartment">Update Departments</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                    </div>
                 </li>
             </#if>
             <#if user??>

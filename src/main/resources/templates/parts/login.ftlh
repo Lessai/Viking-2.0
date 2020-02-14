@@ -1,7 +1,7 @@
 <#macro login path submitValue isRegistrForm >
     <form action="${path}" method="post">
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label"> User Name: </label>
+            <label class="col-sm-2 col-form-label"><b> User Name: </b></label>
             <div class="col-sm-6">
                 <input type="text" name="username" value="<#if user??>${user.username}</#if>"
                        class="form-control ${(usernameError??)?string('is-invalid', '')}"
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label"> Password: </label>
+            <label class="col-sm-2 col-form-label"><b> Password: </b></label>
             <div class="col-sm-6">
                 <input type="password" name="password"
                        class="form-control ${(passwordError??)?string('is-invalid', '')}"
@@ -28,7 +28,7 @@
         </div>
         <#if isRegistrForm>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label"> Password: </label>
+                <label class="col-sm-2 col-form-label"> Retype Password: </label>
                 <div class="col-sm-6">
                     <input type="password" name="password2"
                            class="form-control ${(password2Error??)?string('is-invalid', '')}"
@@ -65,7 +65,8 @@
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-warning">${submitValue}</button>
         <#if !isRegistrForm>
-            <div class="mt-1"><a href="/registration">Create account</a></div>
+            <div class="mt-1"><a class="text-info" href="/registration"><b>Create account</b></a></div>
+
         </#if>
     </form>
 </#macro>
