@@ -10,16 +10,16 @@ import javax.validation.constraints.NotBlank;
 public class Department {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="DepartmentID")
+    @Column(name="departmentID")
     private Integer departmentId;
 
     @NotBlank(message = "Please fill the Department Code")
     @Length(max = 20, message = "Department Code too long(more than 20 symbols)")
-    @Column(name="DepartmentCode")
+    @Column(name="departmentCode")
     private String departmentCode;
 
     @Length(max = 150, message = "Department Name too long(more than 150 symbols)")
-    @Column(name="DepartmentName")
+    @Column(name="departmentName")
     private String departmentName;
 
     public Integer getDepartmentId() {

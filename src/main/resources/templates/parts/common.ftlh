@@ -16,7 +16,7 @@
 
         <#include "navbar.ftlh">
         <div class="container content-list mx-5">
-            <div class="py-5 pl-2">
+            <div class="pt-5 px-2" style="min-height: 100%">
                 <#nested>
             </div>
         </div>
