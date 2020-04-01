@@ -1,4 +1,4 @@
-package com.dp.viking.domain;
+package com.dp.viking.domain.location;
 
 import org.hibernate.validator.constraints.Length;
 

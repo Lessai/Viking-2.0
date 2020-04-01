@@ -15,16 +15,16 @@
     <#else>
         <#assign body = 1..page.getTotalPages()/>
     </#if>
-    <div class="container">
-        <div class="mt-3 row">
-            <ul class="pagination col-auto">
+    <div class="container" style="margin-right: 1%">
+        <div class="mt-1 row justify-content-end" >
+            <ul class="pagination col-auto ">
                 <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Pages</a>
+                    <a class="page-link" href="#" tabindex="-1">Страница</a>
                 </li>
                 <#list body as p>
                     <#if (p - 1) == page.getNumber()>
-                        <li class="page-item active">
-                            <a class="page-link" href="#" tabindex="-1">${p}</a>
+                        <li class="page-item list-group-item-warning">
+                            <a class="page-link list-group-item-warning" href="#" tabindex="-1">${p}</a>
                         </li>
                     <#elseif p == -1>
                         <li class="page-item disabled">
@@ -39,10 +39,10 @@
             </ul>
             <div class="dropdown col-auto">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Elements on page
+                    Количество элементов
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <#list [6,10,24,48] as c>
+                    <#list [6,12,24] as c>
                         <#if (c) == page.getSize()>
                                 <a class="dropdown-item" href="#" tabindex="-1">${c}</a>
                         <#else>

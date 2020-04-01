@@ -1,4 +1,6 @@
-package com.dp.viking.domain;
+package com.dp.viking.domain.location;
+
+import com.dp.viking.domain.location.Region;
 
 import javax.persistence.*;
 

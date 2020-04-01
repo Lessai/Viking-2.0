@@ -77,7 +77,7 @@ USE viking_oltp;
 		CREATE TABLE viking_oltp.street
 		(
 		streetID int not null Primary KEY
-		,ctreetName varchar(150)
+		,streetName varchar(150)
 		,cCityID int
 		,cATDTypeID int
 		);
@@ -88,7 +88,7 @@ CREATE TABLE viking_oltp.address
 		(
 		addressID int not null Primary KEY
 		,building varchar(10)
-		,bppartments varchar(10)
+		,apartment varchar(10)
 		,cStreetID int
 		);
 

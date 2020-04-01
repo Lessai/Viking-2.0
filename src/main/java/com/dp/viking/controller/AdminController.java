@@ -29,9 +29,6 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private AdminService adminService;
-
     /************************   USER LIST   ***************************/
 
     @GetMapping
@@ -40,54 +37,4 @@ public class AdminController {
         return "userList";
     }
 
-    /************************   DEPARTMENTS   ***************************/
-    @GetMapping("updateDepartment")
-    public String departmentList(Model model){
-        model.addAttribute("departments", adminService.findAllDepartments());
-        return "departmentsList";
-    }
-
-    @PostMapping("updateDepartment")
-    public String updateDepartment(
-            @RequestParam String departmentCode,
-            @RequestParam String departmentName){
-        adminService.addDepartment(departmentCode, departmentName);
-
-        return "redirect:/admin/departmentsList";
-    }
-
-    /************************   GET ALL ADDRESSES   ***************************/
-    @GetMapping("updateAddress")
-    public String addressesList(Model model){
-        model.addAttribute("regions", adminService.findAllRegions());
-        model.addAttribute("atdTypes", adminService.findAllATDTypes());
-        model.addAttribute("countries", adminService.findAllCountries());
-        return "addressesList";
-    }
-
-    /************************   REGION   ***************************/
-    @PostMapping("updateRegion")
-    public String updateRegion(@RequestParam String regionName){
-        adminService.addRegion(regionName);
-     ;
-        return "redirect:/admin/updateAddress";
-    }
-
-    /************************   ATD   ***************************/
-    @PostMapping("updateAtd")
-    public String updateATD(@RequestParam String atdTypeName, @RequestParam String atdTypeSName){
-        adminService.addATDType(atdTypeName, atdTypeSName);
-        return "redirect:/admin/updateAddress";
-
-    }
-
-    /************************   COUNTRY   ***************************/
-    @PostMapping("updateCountry")
-    public String updateCountry(@RequestParam String countryCode,
-                                @RequestParam String countryName,
-                                @RequestParam String regionName)
-    {
-        adminService.addCountry(countryCode, countryName, regionName);
-        return "redirect:/admin/updateAddress";
-    }
 }
