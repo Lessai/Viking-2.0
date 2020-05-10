@@ -63,6 +63,16 @@ public class Employee {
     @JoinColumn(name = "cWorkModeID")
     private WorkMode workMode;
 
+    private String dismissalReason;
+
+    public String getDismissalReason() {
+        return dismissalReason;
+    }
+
+    public void setDismissalReason(String dismissalReason) {
+        this.dismissalReason = dismissalReason;
+    }
+
     public Long getPersonID() {
         return personID;
     }

@@ -19,10 +19,13 @@ public class TrainingDto {
     private Integer trainingNrOfSessions;
     private Double trainingPrice;
     private String picturePath;
-    private Long redisters;
+    private Long registers;
     private Boolean meRegistred;
+    private Boolean isRegistrationOpen;
+    private Boolean isFinished;
+    private Short myScore;
 
-    public TrainingDto(Training training, Long registers, Boolean meRegistred) {
+    public TrainingDto(Training training, Long registers, Boolean meRegistred, Boolean isRegistrationOpen, Boolean isFinished, Short myScore) {
         this.trainingID = training.getTrainingID();
         this.trainingName = training.getTrainingName();
         this.trainingDesc = training.getTrainingDesc();
@@ -36,10 +39,44 @@ public class TrainingDto {
         this.trainingNrOfSessions = training.getTrainingNrOfSessions();
         this.trainingPrice = training.getTrainingPrice();
         this.picturePath = training.getPicturePath();
-        this.redisters = registers;
+        this.registers = registers;
         this.meRegistred = meRegistred;
+        this.isRegistrationOpen = isRegistrationOpen;
+        this.isFinished = isFinished;
+        this.myScore = myScore;
     }
 
+    public Short getMyScore() {
+        return myScore;
+    }
+
+    public void setMyScore(Short myScore) {
+        this.myScore = myScore;
+    }
+
+    public Boolean getFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(Boolean finished) {
+        isFinished = finished;
+    }
+
+    public Long getRegisters() {
+        return registers;
+    }
+
+    public void setRegisters(Long registers) {
+        this.registers = registers;
+    }
+
+    public Boolean getRegistrationOpen() {
+        return isRegistrationOpen;
+    }
+
+    public void setRegistrationOpen(Boolean registrationOpen) {
+        isRegistrationOpen = registrationOpen;
+    }
 
     public Long getTrainingID() {
         return trainingID;
@@ -146,11 +183,11 @@ public class TrainingDto {
     }
 
     public Long getRedisters() {
-        return redisters;
+        return registers;
     }
 
     public void setRedisters(Long redisters) {
-        this.redisters = redisters;
+        this.registers = redisters;
     }
 
     public Boolean getMeRegistred() {
@@ -177,8 +214,11 @@ public class TrainingDto {
                 ", trainingNrOfSessions=" + trainingNrOfSessions +
                 ", trainingPrice=" + trainingPrice +
                 ", picturePath='" + picturePath + '\'' +
-                ", redisters=" + redisters +
+                ", registers=" + registers +
                 ", meRegistred=" + meRegistred +
+                ", isRegistrationOpen=" + isRegistrationOpen +
+                ", isFinished=" + isFinished +
+                ", myScore=" + myScore +
                 '}';
     }
 }

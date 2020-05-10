@@ -8,14 +8,16 @@
         <div class="card border-info text-white bg-dark my-3">
             <p class="text-center mt-1 font-weight-bold">${training.trainingName}</p>
             <#if training.picturePath??>
-                <img src="../img/${training.picturePath}" class="card-img-top pl-2 pr-2 pb-2">
+                <img src="../img/${training.picturePath}" class="card-img-top pl-4 pr-4 pb-2">
             </#if>
             <div class="m-2">
                 <div class="container">
                     <div class="row justify-content-between">
                         <i class="text-warning col-6">Навык: ${training.trainingSkill}</i>
-                        <a class="col-5 text-warning" href="/trainings/${training.trainingID}/register">
-                            <#if training.meRegistred>
+                        <a class="col-4 text-warning" href="/trainings/${training.trainingID}/register">
+                            <#if training.finished>
+                                <input type="button" class="btn btn-info" disabled value="Пройден"></input>
+                            <#elseif training.meRegistred>
                                 <input type="button" class="btn btn-warning" value="Отменить"></input>
                             <#else>
                                 <input type="button" class="btn btn-outline-warning" value="Регистрация"></input>
@@ -23,8 +25,50 @@
                         </a>
                     </div>
                 </div>
+                <div class="row mt-2 justify-content-between">
+                    <div class="col ml-2">
+                        <p>Понравился тренинг?</p>
+                    </div>
+                    <div class="col-4">
+                        <a class="text-warning align-self-center" href="/trainings/${training.trainingID}/1/rate">
+                            <#if (training.myScore!0) gt 0 >
+                                <i class="fas fa-star"></i>
+                            <#else>
+                                <i class="far fa-star"></i>
+                            </#if>
+                        </a>
+                        <a class="text-warning align-self-center" href="/trainings/${training.trainingID}/2/rate">
+                            <#if (training.myScore!0) gt 1>
+                                <i class="fas fa-star"></i>
+                            <#else>
+                                <i class="far fa-star"></i>
+                            </#if>
+                        </a>
+                        <a class="text-warning align-self-center" href="/trainings/${training.trainingID}/3/rate">
+                            <#if (training.myScore!0) gt 2>
+                                <i class="fas fa-star"></i>
+                            <#else>
+                                <i class="far fa-star"></i>
+                            </#if>
+                        </a>
+                        <a class="text-warning align-self-center" href="/trainings/${training.trainingID}/4/rate">
+                            <#if (training.myScore!0) gt 3>
+                                <i class="fas fa-star"></i>
+                            <#else>
+                                <i class="far fa-star"></i>
+                            </#if>
+                        </a>
+                        <a class="text-warning align-self-center" href="/trainings/${training.trainingID}/5/rate">
+                            <#if (training.myScore!0) gt 4>
+                                <i class="fas fa-star"></i>
+                            <#else>
+                                <i class="far fa-star"></i>
+                            </#if>
+                        </a>
+                    </div>
+                </div>
                 <div>
-                    <a class="text-info" data-toggle="collapse" href="#collapseDesc#{training.trainingID}" aria-expanded="false" aria-controls="collapseExample">
+                    <a class="text-info ml-2" data-toggle="collapse" href="#collapseDesc#{training.trainingID}" aria-expanded="false" aria-controls="collapseExample">
                         Посмотреть описание
                     </a>
                     <div class="collapse" id="collapseDesc#{training.trainingID}">
@@ -32,7 +76,7 @@
                     </div>
                 </div>
                 <div>
-                    <a class="text-info" data-toggle="collapse" href="#collapseInfo#{training.trainingID}" aria-expanded="false" aria-controls="collapseExample">
+                    <a class="text-info ml-2" data-toggle="collapse" href="#collapseInfo#{training.trainingID}" aria-expanded="false" aria-controls="collapseExample">
                         Основная информация
                     </a>
                     <div class="collapse" id="collapseInfo#{training.trainingID}">
@@ -53,10 +97,6 @@
                             <tr>
                                 <td>Кол-во занятий</td>
                                 <td>${training.trainingNrOfSessions}</td>
-                            </tr>
-                            <tr>
-                                <td>Цена</td>
-                                <td>${training.trainingPrice} BYN</td>
                             </tr>
                             </tbody>
                         </table>

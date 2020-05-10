@@ -57,6 +57,9 @@ public class Training {
     )
     private Set<User> likes = new HashSet<>();
 
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<TrainingRating> trainingRatings;
+
     public Training() {
     }
 

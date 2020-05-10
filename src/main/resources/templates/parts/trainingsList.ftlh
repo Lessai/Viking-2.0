@@ -8,7 +8,7 @@
         <div class="card border-info text-white bg-dark my-3">
             <p class="text-center mt-1 font-weight-bold">${training.trainingName}</p>
             <#if training.picturePath??>
-                <img src="../img/${training.picturePath}" class="card-img-top pl-2 pr-2 pb-2">
+                <img src="../img/${training.picturePath}" class="card-img-top pl-4 pr-4 pb-2">
             </#if>
             <div class="m-2">
                 <div class="container">
@@ -17,6 +17,8 @@
                         <a class="col-5 text-warning <#if training.meRegistred>disabled</#if>" href="/trainings/${training.trainingID}/register">
                             <#if training.meRegistred>
                                 <input type="button" class="btn btn-warning" value="Вы добавлены"></input>
+                            <#elseif training.registrationOpen>
+                                <input type="button" class="btn btn-outline-warning" disabled value="Набор окончен"></input>
                             <#else>
                                 <input type="button" class="btn btn-outline-warning" value="Регистрация"></input>
                             </#if>
@@ -53,10 +55,6 @@
                             <tr>
                                 <td>Кол-во занятий</td>
                                 <td>${training.trainingNrOfSessions}</td>
-                            </tr>
-                            <tr>
-                                <td>Цена</td>
-                                <td>${training.trainingPrice} BYN</td>
                             </tr>
                             </tbody>
                         </table>

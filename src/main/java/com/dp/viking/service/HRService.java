@@ -69,6 +69,11 @@ public class HRService {
         return employeeRepo.findAll();
     }
 
+    public Employee findEmployeeByTabN(Integer personTabN){ return employeeRepo.findByPersonTabN(personTabN); }
+
+    public List<Employee> findEmployeesByFilter(String departmentFilter, String categoryFilter,String  filterFirstName,String filterLastName)
+    {return employeeRepo.findEmployeesByFilter(departmentFilter, categoryFilter, filterFirstName, filterLastName);}
+
     public  Integer nextTabN(){return employeeRepo.findNextTabN();}
 
     public Employee findEmployeeByName(String firstAndLastName) {
@@ -112,6 +117,61 @@ public class HRService {
         employee.setGender(genderRepo.findByGenderName(gender));
         employee.setMaritalStatus(maritalStatusRepo.findByMaritalStatusName(maritalStatus));
         employee.setCategory(categoryRepo.findByCategName(categoryName));
+        employeeRepo.save(employee);
+        return true;
+    }
+
+    public boolean editEmployee(Integer tabN,
+                               String departmentName,
+                               Date dateIn,
+                               String firstName,
+                               String title,
+                               String secondName,
+                               String workMode,
+                               Date birthDate,
+                               String gender,
+                               String maritalStatus,
+                               String categoryName){
+        if (departmentName == null ||
+                dateIn == null ||
+                firstName == null ||
+                title == null ||
+                secondName == null ||
+                birthDate == null ||
+                workMode == null ||
+                gender == null ||
+                maritalStatus == null ||
+                categoryName == null
+        ) {
+            return false;
+        }
+        Employee employee = employeeRepo.findByPersonTabN(tabN);
+        employee.setDepartment(departmentRepo.findByDepartmentName(departmentName));
+        employee.setPersonDateIN(dateIn);
+        employee.setPersonFirstName(firstName);
+        employee.setPersonLastName(secondName);
+        employee.setTitle(titleRepo.findByTitleName(title));
+        employee.setWorkMode(workModeRepo.findByWorkModeName(workMode));
+        employee.setPersonBirthDate(birthDate);
+        employee.setGender(genderRepo.findByGenderName(gender));
+        employee.setMaritalStatus(maritalStatusRepo.findByMaritalStatusName(maritalStatus));
+        employee.setCategory(categoryRepo.findByCategName(categoryName));
+        employeeRepo.save(employee);
+        return true;
+    }
+
+    public boolean dismissEmployee(Integer tabN,
+                                Date dateOut,
+                                String dismissionReason
+                                ){
+        if (
+                dateOut == null || dismissionReason == null
+        ) {
+            return false;
+        }
+        Employee employee = employeeRepo.findByPersonTabN(tabN);
+        employee.setPersonDateOut(dateOut);
+        employee.setDismissalReason(dismissionReason);
         employeeRepo.save(employee);
         return true;
     }

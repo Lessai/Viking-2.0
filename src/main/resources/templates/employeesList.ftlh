@@ -24,8 +24,7 @@
                             </div>
                             <div class="form-group col">
                                 <label for = "department">Данные о вакансии:</label>
-                                <select id = "department" name = "department"  class="form-control">
-                                    <option value="" disabled selected>Подразделение</option>
+                                <select required id = "department" name = "department"  class="form-control">
                                     <#list departments as department>
                                         <option value = "${department.departmentName}">${department.departmentName}</option>
                                     </#list>
@@ -39,13 +38,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></span>
                                     </div>
-                                    <input type="date" id="dateIn" class="form-control" name="dateIn"
-                                           min="2020-01-01" max="2030-01-01" aria-describedby="basic-addon1">
+                                    <input required  type="date" id="dateIn" class="form-control" name="dateIn"
+                                           min="2010-01-01" max="2030-01-01" aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="form-group col">
-                                <select id = "category" name = "categoryName"  class="form-control">
-                                    <option value="" disabled selected>Категория</option>
+                                <label for="category">Категория:</label>
+                                <select required  id = "category" name = "categoryName"  class="form-control">
                                     <#list categories as category>
                                         <option value = "${category.categName}">${category.categName}</option>
                                     </#list>
@@ -55,11 +54,11 @@
                         <div class="row justify-content-between">
                             <div class="form-group col">
                                 <label>Персональные данные:</label>
-                                <input type="text" name = "firstName" class="form-control" placeholder="Имя">
+                                <input required type="text" name = "firstName" class="form-control" placeholder="Имя">
                             </div>
                             <div class="form-group col">
-                                <select id = "title" name = "title"  class="form-control">
-                                    <option value="" disabled selected>Должность</option>
+                                <label for="title">Должность:</label>
+                                <select required id = "title" name = "title"  class="form-control">
                                     <#list titles as title>
                                         <option value = "${title.titleName}">${title.titleName}</option>
                                     </#list>
@@ -68,7 +67,7 @@
                         </div>
                         <div class="row justify-content-between">
                             <div class="form-group col">
-                                <input type="text" name = "secondName" class="form-control" placeholder="Фамилия">
+                                <input required type="text" name = "secondName" class="form-control" placeholder="Фамилия">
                             </div>
                             <div class="form-group col">
                                 <select id = "workMode" name = "workMode"  class="form-control">
@@ -86,7 +85,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></span>
                                     </div>
-                                    <input type="date" id="birthDate" class="form-control" name="birthDate"
+                                    <input required type="date" id="birthDate" class="form-control" name="birthDate"
                                            min="1950-01-01" max="2030-01-01" aria-describedby="basic-addon1">
                                 </div>
                             </div>
@@ -99,8 +98,20 @@
                                     </#list>
                                 </select>
                             </div>
+                            <div class="form-group col-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="isContract" id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1">Сформировать договор</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="isOrder" id="customCheck2">
+                                    <label class="custom-control-label" for="customCheck1">Сформировать приказ</label>
+                                </div>
+                            </div>
                         </div>
-                        <div  class="row justify-content-start">
+                        <div  class="row justify-content-between">
                             <div class="form-group col-6">
                                 <label for="maritalStatus">Семейное положение</label>
                                 <select id = "maritalStatus" name = "maritalStatus"  class="form-control">
@@ -109,10 +120,8 @@
                                     </#list>
                                 </select>
                             </div>
-                        </div>
-                        <div class="row justify-content-end">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-outline-warning">Сохранить</button>
+                            <div class="form-group col-auto">
+                                <button type="submit" class="btn btn-outline-warning"><i class="far fa-save"></i> Сохранить</button>
                             </div>
                         </div>
                     </div>
@@ -120,11 +129,52 @@
             </div>
         </div>
         <br>
+
+        <!------------------------------------------------ Filtering ------------------------------------------------->
+
+
+        <form class="form-inline" method="get" action="/HR/employees">
+            <div class="form-row mb-3 justify-content-between">
+                <div class="form-group col-md-4 col-xs-4" style="margin-right: -10px">
+                    <label for = "departmentFilter">Подразделение:</label>
+                    <select id = "departmentFilter" name = "departmentFilter"  class="form-control">
+                        <option value="Все" selected>Все</option>
+                        <#list departments as department>
+                            <option value = "${department.departmentName}">${department.departmentName}</option>
+                        </#list>
+                    </select>
+                </div>
+                <div class="form-group col-3" style="margin-right: -50px">
+                    <label for = "categoryFilter">Категория:</label>
+                    <select id = "categoryFilter" name = "categoryFilter"  class="form-control">
+                        <option value="Все" selected>Все</option>
+                        <#list categories as category>
+                            <option value = "${category.categName}">${category.categName}</option>
+                        </#list>
+                    </select>
+                </div>
+                <div class="form-group col-2">
+                    <label for = "filterFirstName">Имя:</label>
+                    <input type="text" name = "filterFirstName" class="form-control" value="Имя" >
+                </div>
+                <div class="form-group col-2">
+                    <label for = "filterLastName">Фамилия:</label>
+                    <input type="text" name = "filterLastName" class="form-control" value="Фамилия" >
+                </div>
+                <div class="col-1 mt-4">
+                    <button type="submit" class="btn btn-info" id="basic-addon2"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+
+        <!-------------------------------------------------- TABLE ------------------------------------------------->
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-sm table-bordered">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Изме- нить</th>
+                    <th scope="col">Уво- лить</th>
                     <th scope="col">Таб. №</th>
                     <th scope="col">Имя</th>
                     <th scope="col">Фамилия</th>
@@ -137,13 +187,15 @@
                     <th scope="col">Категория</th>
                     <th scope="col">Подразделение</th>
                     <th scope="col">Режим работы</th>
-                    <th scope="col"></th>
+
                 </tr>
                 </thead>
                 <tbody>
                 <#list employees as employee>
                     <tr>
                         <td>${employee?counter}</td>
+                        <td><a class="text-info" href="/HR/employees/${employee.personTabN}/edit"><i class="fas fa-pencil-alt text-info"></i></a></td>
+                        <td><a class="text-danger" href="/HR/employees/${employee.personTabN}/dismiss"><i class="fas fa-user-times"></i></a></td>
                         <td>${employee.personTabN!"--"}</td>
                         <td>${employee.personFirstName!"--"}</td>
                         <td>${employee.personLastName!"--"}</td>
@@ -159,7 +211,6 @@
                         <td>${employee.category.categName!"--"}</td>
                         <td>${employee.department.departmentName!"--"}</td>
                         <td>${employee.workMode.workModeName!"--"}</td>
-                        <td><a class="text-info" href="#">Изменить</a></td>
                     </tr>
                 </#list>
                 </tbody>

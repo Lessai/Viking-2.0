@@ -3,7 +3,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="/">
-        <img src="../img/Logo.png" width="35" height="35" class="d-inline-block align-top" alt="">
+        <img src="../../../img/Logo.png" width="35" height="35" class="d-inline-block align-top" alt="">
         Viking
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,9 @@
                     <div class="dropdown-menu" aria-labelledby="trainingDropdown">
                         <a class="dropdown-item" href="/trainings">Все тренинги</a>
                         <a class="dropdown-item" href="/trainings/myTrainings">Мои тренинги</a>
+                        <#if isHR || isAdmin>
+                            <a class="dropdown-item" href="/trainings/trainingsForecast">Планирование бюджета</a>
+                        </#if>
                     </div>
                 </li>
                 <li class="nav-item">

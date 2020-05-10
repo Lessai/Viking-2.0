@@ -1,19 +1,19 @@
 package com.dp.viking.controller;
 
+import com.dp.viking.domain.employee.Employee;
 import com.dp.viking.domain.location.Street;
+import com.dp.viking.domain.util.EmployeeUtil;
 import com.dp.viking.service.DocxService;
 import com.dp.viking.service.HRService;
-import com.google.gson.Gson;
+import com.dp.viking.domain.util.EmployeeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -30,8 +30,21 @@ public class HRController {
 
     @GetMapping("employees")
     public String employeeList(
+            @RequestParam(required = false, defaultValue = "Все") String departmentFilter,
+            @RequestParam(required = false, defaultValue = "Все") String categoryFilter,
+            @RequestParam(required = false, defaultValue = "Имя") String filterFirstName,
+            @RequestParam(required = false, defaultValue = "Фамилия") String filterLastName,
             Model model){
-        model.addAttribute("employees", hrService.findAllEmployees());
+        if (!departmentFilter.equals("Все")
+                || !categoryFilter.equals("Все")
+                || !filterFirstName.equals("Имя")
+                || !filterLastName.equals("Фамилия"))
+        {
+            model.addAttribute("employees", hrService.findEmployeesByFilter(departmentFilter, categoryFilter, filterFirstName, filterLastName));
+        }
+        else{
+            model.addAttribute("employees", hrService.findAllEmployees());
+        }
         model.addAttribute("departments", hrService.findAllDepartments());
         model.addAttribute("genders", hrService.findAllGenders());
         model.addAttribute("categories", hrService.findAllCategories());
@@ -43,29 +56,115 @@ public class HRController {
     }
 
     @PostMapping("addEmployee")
-    public String addEmployee(@RequestParam String department,
-                              @RequestParam("dateIn")
+    public String addEmployee(@RequestParam(required = false) String department,
+                              @RequestParam(value = "dateIn", required = false)
                                   @DateTimeFormat(pattern = "yyyy-mm-dd") Date dateIn,
-                              @RequestParam String firstName,
-                              @RequestParam String title,
-                              @RequestParam String secondName,
-                              @RequestParam String maritalStatus,
-                              @RequestParam String workMode,
-                              @RequestParam("birthDate")
+                              @RequestParam(required = false)  String firstName,
+                              @RequestParam(required = false)  String title,
+                              @RequestParam(required = false)  String secondName,
+                              @RequestParam(required = false)  String maritalStatus,
+                              @RequestParam(required = false)  String workMode,
+                              @RequestParam(value = "birthDate", required = false)
                                   @DateTimeFormat(pattern = "yyyy-mm-dd") Date birthDate,
-                              @RequestParam String gender,
-                              @RequestParam String categoryName,
+                              @RequestParam(required = false)  String gender,
+                              @RequestParam(required = false)  String categoryName,
+                              @RequestParam(required = false) boolean isContract,
                               Model model
                               ) throws IOException {
-        if (hrService.addEmployee(hrService.nextTabN(), department,dateIn,firstName,title,secondName, workMode, birthDate, gender, maritalStatus,categoryName)){
-            docxService.createEmploymentContractDoc();
+        EmployeeUtil employeeUtil = new EmployeeUtil();
+        if (hrService.addEmployee(hrService.nextTabN(), department,dateIn,firstName,title,secondName, workMode, birthDate, gender, maritalStatus,categoryName)
+        ){
+            if (isContract) {
+                docxService.createEmploymentContractDoc(department, dateIn, firstName, secondName, title, categoryName);
+            }
+            employeeUtil.successResult(model);
         }
         else {
-            model.addAttribute("errorMessage", "Форма была заполнена некорректно, попробуйте еще раз.");
+            employeeUtil.failureResult(model);
         }
-        return "redirect:/HR/employees";
+        return "addEmployeeResult";
     }
 
+   /*--------------------Edit Employee--------------------*/
+    @GetMapping("employees/{personTabN}/edit")
+    public String editEmployee(
+            @PathVariable Integer personTabN,
+            Model model
+    ){
+        model.addAttribute("employee", hrService.findEmployeeByTabN(personTabN));
+        model.addAttribute("departments", hrService.findAllDepartments());
+        model.addAttribute("genders", hrService.findAllGenders());
+        model.addAttribute("categories", hrService.findAllCategories());
+        model.addAttribute("workmodes", hrService.findAllWorkModes());
+        model.addAttribute("titles", hrService.findAllTitles());
+        model.addAttribute("maritalstatuses", hrService.findAllMaritalStatuses());
+        return "editEmployee";
+    }
+
+    @PostMapping("/editEmployee")
+    public  String updateEmployee(
+            @RequestParam(required = true) Integer tabNHidden,
+            @RequestParam(required = false) String department,
+            @RequestParam(value = "dateIn", required = false)
+            @DateTimeFormat(pattern = "yyyy-mm-dd") Date dateIn,
+            @RequestParam(required = false)  String firstName,
+            @RequestParam(required = false)  String title,
+            @RequestParam(required = false)  String secondName,
+            @RequestParam(required = false)  String maritalStatus,
+            @RequestParam(required = false)  String workMode,
+            @RequestParam(value = "birthDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-mm-dd") Date birthDate,
+            @RequestParam(required = false)  String gender,
+            @RequestParam(required = false)  String categoryName,
+            Model model
+    ){
+        EmployeeUtil employeeUtil = new EmployeeUtil();
+        if (hrService.editEmployee(tabNHidden, department,dateIn,firstName,title,secondName, workMode, birthDate, gender, maritalStatus,categoryName)
+        ){
+            employeeUtil.successResult(model);
+        }
+        else {
+            employeeUtil.failureResult(model);
+        }
+        return "addEmployeeResult";
+    }
+
+    /*--------------------Dismiss Employee--------------------*/
+    @GetMapping("employees/{personTabN}/dismiss")
+    public String dismissEmployee(
+            @PathVariable Integer personTabN,
+            Model model
+    ){
+        model.addAttribute("employee", hrService.findEmployeeByTabN(personTabN));
+        model.addAttribute("departments", hrService.findAllDepartments());
+        model.addAttribute("categories", hrService.findAllCategories());
+        model.addAttribute("titles", hrService.findAllTitles());
+        return "dismissalEmployee";
+    }
+
+    @PostMapping("/dismissEmployee")
+    public  String dismissEmployee(
+            @RequestParam(required = true) Integer tabNHidden,
+            @RequestParam(value = "dateOut", required = true)
+                @DateTimeFormat(pattern = "yyyy-mm-dd") Date dateOut,
+            @RequestParam(required = true)  String dismissionReason,
+            @RequestParam(required = true) Boolean isOrder,
+            Model model
+    ) throws IOException {
+        EmployeeUtil employeeUtil = new EmployeeUtil();
+        Employee employee = hrService.findEmployeeByTabN(tabNHidden);
+        if (hrService.dismissEmployee(tabNHidden, dateOut, dismissionReason)
+        ){
+            if (isOrder) {
+                docxService.createDismissalOrderDoc(dateOut, employee.getPersonDateIN(), employee.getPersonFirstName(), employee.getPersonLastName(), employee.getTitle().getTitleName(), dismissionReason);
+            }
+            employeeUtil.successResult(model);
+        }
+        else {
+            employeeUtil.failureResult(model);
+        }
+        return "addEmployeeResult";
+    }
     /************************   DEPARTMENTS   ***************************/
     @GetMapping("departments")
     public String departmentList(Model model){

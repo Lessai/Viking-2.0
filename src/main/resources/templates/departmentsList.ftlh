@@ -36,7 +36,7 @@
             </div>
         </div>
         <br>
-        <table class="table table-bordered">
+        <table class="table table-sm table-bordered">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>

@@ -2,30 +2,38 @@ package com.dp.viking.domain.dto;
 
 import java.util.Date;
 
-public class EmploymentContractContext {
+public class DismissalOrderContext {
     private String firstName;
-    private String departmentName;
+    private String dismissionReason;
+    private Date dateOut;
     private Date dateIn;
     private String secondName;
     private String title;
-    private String categoryName;
     private static final String TEMPLATE_DOC_PATH = "C:/Study/DP/Doc_templates/";
-    private static final String READY_DOC_PATH = "C:/Study/DP/Ready_doc/Приказы_о_найме/";
+    private static final String READY_DOC_PATH = "C:/Study/DP/Ready_doc/Приказы_об_увольнении/";
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String name) {
-        this.firstName = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public String getDismissionReason() {
+        return dismissionReason;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setDismissionReason(String dismissionReason) {
+        this.dismissionReason = dismissionReason;
+    }
+
+    public Date getDateOut() {
+        return dateOut;
+    }
+
+    public void setDateOut(Date dateOut) {
+        this.dateOut = dateOut;
     }
 
     public Date getDateIn() {
@@ -52,15 +60,7 @@ public class EmploymentContractContext {
         this.title = title;
     }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public static String getTemplateDocPathDocPath() {
+    public static String getTemplateDocPath() {
         return TEMPLATE_DOC_PATH;
     }
 
