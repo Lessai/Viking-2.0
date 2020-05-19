@@ -1,11 +1,9 @@
 package com.dp.viking.controller;
 
 import com.dp.viking.domain.employee.Employee;
-import com.dp.viking.domain.location.Street;
 import com.dp.viking.domain.util.EmployeeUtil;
 import com.dp.viking.service.DocxService;
 import com.dp.viking.service.HRService;
-import com.dp.viking.domain.util.EmployeeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,10 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('HR')")

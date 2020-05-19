@@ -14,13 +14,15 @@
                     <div class="row justify-content-between">
                         <div class="form-group col">
                             <label><i class="far fa-address-card"></i> Табельный номер:</label>
-                            <input type="text" value="${employee.personTabN}" readonly="readonly" name = "tabN" class="form-control" placeholder="Таб номер">
+                            <input type="text" value="${employee.personTabN}" readonly="readonly" name = "tabN"
+                                   class="form-control" placeholder="Таб номер">
                             <input type="text" value="${employee.personTabN}" hidden name = "tabNHidden" class="form-control">
                         </div>
                         <div class="form-group col">
                             <label for = "department">Данные о вакансии:</label>
                             <select required id = "department" name = "department"  class="form-control">
-                                <option selected value="${employee.department.departmentName}">${employee.department.departmentName}</option>
+                                <option selected value="${employee.department.departmentName}">
+                                    ${employee.department.departmentName}</option>
                                 <#list departments as department>
                                     <option value = "${department.departmentName}">${department.departmentName}</option>
                                 </#list>

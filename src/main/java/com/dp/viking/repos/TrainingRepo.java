@@ -13,6 +13,25 @@ import java.util.Set;
 
 public interface TrainingRepo extends JpaRepository<Training, Integer> {
 
+    @Query("select new com.dp.viking.domain.dto.TrainingDto(" +
+            "   t, " +
+            "   count(tr), " +
+            "   sum(case when tr = :user then 1 else 0 end) > 0, " +
+            "   count(tr) >= t.trainingCapacity, " +
+            "   CURRENT_TIMESTAMP >= t.trainingEndDate, " +
+            "   cast(1 AS short) " +
+            ") " +
+            "from Training t left join t.register tr " +
+            "where t.trainingSkill = :trainingSkill " +
+            "and t.trainingStartDt >= CURRENT_TIMESTAMP " +
+            "group by t")
+    Page<TrainingDto> findBySkill(@Param("trainingSkill") String skill, Pageable pageable, @Param("user") User user);
+
+    Training findByTrainingID(Long trainingId);
+
+    Training findByTrainingName(String trainingName);
+
+
     @Query("select new com.dp.viking.domain.dto.TrainingInfoDto(" +
             "   t.trainingSkill, " +
             "   count(tr), " +
@@ -67,21 +86,5 @@ public interface TrainingRepo extends JpaRepository<Training, Integer> {
             "having sum(case when tr = :user then 1 else 0 end) > 0")
     Page<TrainingDto> findMyBySkill(@Param("trainingSkill") String skill, Pageable pageable, @Param("user") User user);
 
-    @Query("select new com.dp.viking.domain.dto.TrainingDto(" +
-            "   t, " +
-            "   count(tr), " +
-            "   sum(case when tr = :user then 1 else 0 end) > 0, " +
-            "   count(tr) >= t.trainingCapacity, " +
-            "   CURRENT_TIMESTAMP >= t.trainingEndDate, " +
-            "   cast(1 AS short) " +
-            ") " +
-            "from Training t left join t.register tr " +
-            "where t.trainingSkill = :trainingSkill " +
-            "and t.trainingStartDt >= CURRENT_TIMESTAMP " +
-            "group by t")
-    Page<TrainingDto> findBySkill(@Param("trainingSkill") String skill, Pageable pageable, @Param("user") User user);
 
-    Training findByTrainingName(String trainingName);
-
-    Training findByTrainingID(Long trainingId);
 }

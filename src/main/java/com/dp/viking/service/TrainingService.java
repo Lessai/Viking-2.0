@@ -45,7 +45,9 @@ public class TrainingService {
                              Long totalNrOfRegistreg,
                              Integer elementIdx){
         if (elementIdx == 0){return trainingsInfoLists.get(elementIdx).getNrOfRegistred()/totalNrOfRegistreg.doubleValue();}
-        else{return trainingsForecasts.get(elementIdx-1).getuRange() + trainingsInfoLists.get(elementIdx).getNrOfRegistred()/totalNrOfRegistreg.doubleValue();}
+        else{
+            return trainingsForecasts.get(elementIdx-1).getuRange() +
+                    trainingsInfoLists.get(elementIdx).getNrOfRegistred()/totalNrOfRegistreg.doubleValue();}
     }
 
     public Boolean findCurrent(TrainingForecastDto trainingsForecast, Double rnd){
@@ -71,8 +73,7 @@ public class TrainingService {
                 updatedForecast.setRegistrationPerc(updatedForecast.getRegistrationQty().doubleValue()/10000);
                 trainingsForecasts.remove(trainingsForecast);
                 trainingsForecasts.add(updatedForecast);
-                break;
-            }
+                break; }
         }
     }
 }
